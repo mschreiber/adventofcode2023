@@ -4,20 +4,28 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Day4Part1 {
+public class Day4Part2 {
+
+	public static String[] originalCards = Day4Input.mine.split(("\r\n"));
+	public static long totalCnt = 0;
 
 	public static void main(String[] args) {
-		String[] cards = Day4Input.mine.split(("\r\n"));
-		double sum = 0;
-
-		for (int i = 0; i < cards.length; i++) {
-			String card = cards[i];
-			sum = sum + getCnt(card);
+		for (int i = 0; i < originalCards.length; i++) {
+			totalCnt++;
+			proceedCard(originalCards[i], i);
 		}
-		System.out.println(sum);
+		System.out.println(totalCnt);
 	}
 
-	public static double getCnt(String card) {
+	public static void proceedCard(String card, int i) {
+		long cnt = getCnt(card);
+		for (int x = 1; x <= cnt; x++) {
+			totalCnt++;
+			proceedCard(originalCards[x + i], x + i);
+		}
+	}
+
+	public static long getCnt(String card) {
 		List<Long> cNbs = Arrays.asList(card.split("[|:]")[1].replaceAll("( )+", " ").trim().split(" ")).stream()
 				.map(Long::parseLong).distinct().collect(Collectors.toList());
 		List<Long> mNbs = Arrays.asList(card.split("[|:]")[2].replaceAll("( )+", " ").trim().split(" ")).stream()
@@ -27,9 +35,6 @@ public class Day4Part1 {
 			if (mNbs.contains(x)) {
 				cnt++;
 			}
-		}
-		if (cnt > 1) {
-			return Math.pow(2, cnt - 1);
 		}
 		return cnt;
 

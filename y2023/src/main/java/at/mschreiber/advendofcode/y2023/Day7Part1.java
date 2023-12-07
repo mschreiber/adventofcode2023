@@ -50,7 +50,16 @@ public class Day7Part1 {
         }
         
         // Full House
-        if (scoresHand1.size() == 2) {
+        if (scoresHand1.size() == 2 && scoresHand2.size() > 2) {
+          return 1;
+        }
+        if (scoresHand2.size() == 2 && scoresHand1.size() > 2) {
+          return -1;
+        }
+        if (scoresHand1.size() == 2 && scoresHand2.size() == 2) {
+          return hand1.compareTo(hand2);
+        }
+        if (scoresHand1.size() == 3) {
           
         }
         
